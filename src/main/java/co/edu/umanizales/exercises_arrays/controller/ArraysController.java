@@ -1,13 +1,16 @@
 package co.edu.umanizales.exercises_arrays.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/arrays")
 public class ArraysController {
+
+    @PostMapping("/sustentation")
+    public String sustentation(@RequestBody int[] array){
+        return verifyEqu(array);
+    }
+
     @GetMapping("/{num1}/{num2}")
     public String getPrimesBetweenTwoNumbers(@PathVariable int num1,
                                              @PathVariable int num2){
@@ -47,6 +50,32 @@ public class ArraysController {
         else{
             return false;
         }
+    }
+
+    private String verifyEqu(int[] array){
+        int sum = sumArray(array);
+        boolean band = false;
+        String cadena = "";
+        for(int i=0; i<array.length; i++){
+            if(sum - array[i] == array[i]){
+                cadena += "Pos:" + i + " Número:"+ array[i]+" \n";
+                band = true;
+            }
+        }
+        if(!band){
+            return "No hay equivalencias";
+        } else {
+            return cadena;
+        }
+
+    }
+
+    private int sumArray(int[] array){
+        int sum = 0;
+        for(int i=0; i<array.length; i++){
+            sum += array[i];
+        }
+        return sum;
     }
 
 }
